@@ -155,7 +155,7 @@ export default function connect(View) {
 
     return (
       <View
-        db={dbStore.get(activeTab)}
+        db={activeTab ? dbStore.get(activeTab) : null}
         activeTab={activeTab}
         tabs={tabs}
         addTab={addTab}

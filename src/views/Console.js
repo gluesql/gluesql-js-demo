@@ -42,6 +42,8 @@ const Blue = styled.span`
 `;
 
 function Console({ db, activeTab }) {
+  if (!activeTab) return <Container />;
+
   const { type, name } = activeTab;
   const [query, setQuery] = useState('');
   const [logs, setLogs] = useState([]);

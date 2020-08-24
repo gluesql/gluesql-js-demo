@@ -25,6 +25,7 @@ const Tab = styled.li`
 `;
 
 const Button = styled.button`
+  height: 60px;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -79,9 +80,10 @@ function Tabs({
           </Tab>
         );
       }) }
-
       <Tab>
         <Button type="button" onClick={add}>
+          { tabs.length === 0
+            && <span> New </span>}
           <span role="img" aria-label="connect">⚡</span>
         </Button>
       </Tab>
