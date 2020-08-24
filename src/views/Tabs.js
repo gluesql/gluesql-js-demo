@@ -37,8 +37,14 @@ const TabSelect = styled(Button)`
 `;
 
 function Tabs({
-  tabs, activeTab, deleteTab, selectTab,
+  tabs, activeTab, deleteTab, selectTab, addTab,
 }) {
+  const add = () => {
+    const name = window.prompt('name?');
+
+    addTab({ type: 'memory', name });
+  };
+
   return (
     <Container>
       { tabs.map((tab) => {
@@ -57,13 +63,17 @@ function Tabs({
               type="button"
               onClick={() => deleteTab(tab)}
             >
-              <span role="img" aria-label="delete">
-                ❌
-              </span>
+              <span role="img" aria-label="delete">❌</span>
             </Button>
           </Tab>
         );
       }) }
+
+      <Tab>
+        <Button type="button" onClick={add}>
+          <span role="img" aria-label="connect">⚡</span>
+        </Button>
+      </Tab>
     </Container>
   );
 }

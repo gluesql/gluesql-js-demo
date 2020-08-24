@@ -17,20 +17,11 @@ const Container = styled.div`
   max-width: min(1200px, 95vw);
 `;
 
-function App({ addTab }) {
-  const add = () => {
-    const name = window.prompt('name?');
-
-    addTab({ type: 'memory', name });
-  };
-
+function App() {
   return (
     <Root>
       <Container>
         <h1>GlueSQL Web Demo</h1>
-        <button type="button" onClick={add}>
-          Add!
-        </button>
         <Tabs />
         <Console />
       </Container>
