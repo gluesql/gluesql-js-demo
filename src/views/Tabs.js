@@ -19,10 +19,12 @@ const Tab = styled.li`
   border-color: ${color.border};
   border-width: 1px 1px 0 1px;
   background-color: ${(props) => (props.selected ? color.tab.bgSelected : 'transparent')};
+
+  display: flex;
+  align-items: center;
 `;
 
 const Button = styled.button`
-  height: 45px;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -32,8 +34,16 @@ const Button = styled.button`
 `;
 
 const TabSelect = styled(Button)`
-  padding: 0 20px;
+  padding: 7px 20px;
   font-weight: 500;
+
+  display: flex;
+  flex-direction: column;
+`;
+
+const TypeLabel = styled.small`
+  font-weight: 400;
+  font-size: 16px;
 `;
 
 function Tabs({
@@ -57,7 +67,8 @@ function Tabs({
               type="button"
               onClick={() => selectTab(tab)}
             >
-              {tab.name}
+              <TypeLabel>{`[${tab.type}]`}</TypeLabel>
+              <div>{tab.name}</div>
             </TabSelect>
             <Button
               type="button"
