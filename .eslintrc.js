@@ -21,6 +21,7 @@ module.exports = {
     'no-alert': 'off',
     'no-console': 'off',
     'react/prop-types': 'off',
+    'react/no-array-index-key': 'off',
     'react/jsx-filename-extension': 'off',
   },
 };

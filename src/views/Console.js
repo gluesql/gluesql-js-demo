@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import styled from 'styled-components';
 
+// import { getGlue } from '../glue';
+import connect, { getLogs, addLog } from '../managers/app';
 import color from '../styles/color';
 
 const Container = styled.div`
   padding: 10px;
   width: 100%;
-  min-height: 500px;
+  height: calc(100vh - 250px);
   border: 0;
   background-color: ${color.console.bg};
   color: ${color.console.fg};
   font-size: 20px;
   font-family: consolas;
+  overflow-y: scroll;
 `;
 
 const Code = styled.code`
@@ -34,26 +37,70 @@ const Input = styled.textarea`
   width: calc(100% - 30px);
 `;
 
-export default function Console() {
-  const [query, setQuery] = useState('SELECT * FROM TableA;');
+const Blue = styled.span`
+  color: #7af;
+`;
+
+function Console({ db, activeTab }) {
+  const { type, name } = activeTab;
+  const [query, setQuery] = useState('');
+  const [logs, setLogs] = useState([]);
+
+  useEffect(() => {
+    setQuery('');
+    setLogs(getLogs(activeTab));
+  }, [activeTab]);
 
   const onChange = (e) => setQuery(e.target.value);
   const onKeyUp = (e) => {
     if (e.key === 'Enter' && query.includes(';')) {
-      window.alert('execute query!');
+      let result;
 
+      try {
+        result = db.execute(query);
+      } catch (error) {
+        result = error;
+      }
+
+      addLog({
+        type, name, query, result,
+      });
+      setLogs(getLogs(activeTab));
       setQuery('');
     }
   };
 
   return (
     <Container>
-      <Code>SELECT * FROM TableA;</Code>
+      <Code>
+        [Storage]
+        <br />
+        {`Type: ${type}`}
+        <br />
+        {`Name: ${name}`}
+        <br />
+        <br />
+      </Code>
+      { logs.map((log, i) => (
+        <Fragment key={`${name}-${i}`}>
+          <Code>
+            <Blue>[Run]</Blue>
+            <br />
+            {`> ${log.query}`}
+            <br />
+            <Blue>[Result]</Blue>
+            <br />
+            {JSON.stringify(log.result)}
+            <br />
+            <br />
+          </Code>
+        </Fragment>
+      )) }
       <InputBlock>
         <span>$</span>
         <Input
           autoFocus
-          rows="20"
+          rows="10"
           value={query}
           onChange={onChange}
           onKeyUp={onKeyUp}
@@ -62,3 +109,5 @@ export default function Console() {
     </Container>
   );
 }
+
+export default connect(Console);
