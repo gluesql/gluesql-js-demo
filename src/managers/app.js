@@ -40,6 +40,7 @@ export default function connect(View) {
     if (!db) load();
 
     const [tabs, setTabs] = useState(getTabs());
+    const [tabIndex, setTabIndex] = useState(0);
 
     function addTab({ type, name }) {
       if (tabs.filter((tab) => tab.type === type && tab.name === name).length > 0) {
@@ -62,8 +63,10 @@ export default function connect(View) {
     return (
       <View
         tabs={tabs}
+        tabIndex={tabIndex}
         addTab={addTab}
         deleteTab={deleteTab}
+        selectTab={setTabIndex}
       />
     );
   };
