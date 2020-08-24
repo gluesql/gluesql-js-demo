@@ -1,10 +1,18 @@
+const WHITE = 'white';
 const BLACK = '#333';
-const LIGHT_GREY = '#ddd';
+const GREY = '#777';
 
 const color = {
   border: BLACK,
-  consoleBg: BLACK,
-  tabSelectedBg: LIGHT_GREY,
+  console: {
+    fg: WHITE,
+    bg: BLACK,
+  },
+  tab: {
+    bgSelected: GREY,
+    fg: BLACK,
+    fgSelected: WHITE,
+  },
 };
 
 export default color;

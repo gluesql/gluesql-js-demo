@@ -18,17 +18,17 @@ const Tab = styled.li`
   border-style: solid;
   border-color: ${color.border};
   border-width: 1px 1px 0 1px;
-  background-color: ${(props) => (props.selected ? color.tabSelectedBg : 'transparent')};
+  background-color: ${(props) => (props.selected ? color.tab.bgSelected : 'transparent')};
 `;
 
 const Button = styled.button`
-  font-size: 22px;
   height: 45px;
   border: none;
   background-color: transparent;
   cursor: pointer;
   outline: none;
-  text-decoration: ${(props) => (props.selected ? 'underline' : 'none')};
+  font-size: 22px;
+  color: ${(props) => (props.selected ? color.tab.fgSelected : color.tab.fg)};
 `;
 
 const TabSelect = styled(Button)`
@@ -37,19 +37,19 @@ const TabSelect = styled(Button)`
 `;
 
 function Tabs({
-  tabs, tabIndex, deleteTab, selectTab,
+  tabs, activeTab, deleteTab, selectTab,
 }) {
   return (
     <Container>
-      { tabs.map((tab, i) => {
-        const selected = tabIndex === i;
+      { tabs.map((tab) => {
+        const selected = tab.name === activeTab.name && tab.type === activeTab.type;
 
         return (
           <Tab key={`${tab.type}-${tab.name}`} selected={selected}>
             <TabSelect
               selected={selected}
               type="button"
-              onClick={() => selectTab(i)}
+              onClick={() => selectTab(tab)}
             >
               {tab.name}
             </TabSelect>

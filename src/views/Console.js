@@ -8,8 +8,8 @@ const Container = styled.div`
   width: 100%;
   min-height: 500px;
   border: 0;
-  background-color: ${color.consoleBg};
-  color: white;
+  background-color: ${color.console.bg};
+  color: ${color.console.fg};
   font-size: 20px;
   font-family: consolas;
 `;
@@ -29,7 +29,7 @@ const Input = styled.textarea`
   border: none;
   font-family: consolas;
   font-size: 20px;
-  color: white;
+  color: ${color.console.fg};
   outline: none;
   width: calc(100% - 30px);
 `;
