@@ -1,7 +1,8 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, {
+  Fragment, useState, useEffect, useRef,
+} from 'react';
 import styled from 'styled-components';
 
-// import { getGlue } from '../glue';
 import connect, { getLogs, addLog } from '../managers/app';
 import color from '../styles/color';
 
@@ -47,10 +48,13 @@ function Console({ db, activeTab }) {
   const { type, name } = activeTab;
   const [query, setQuery] = useState('');
   const [logs, setLogs] = useState([]);
+  const input = useRef(null);
 
   useEffect(() => {
     setQuery('');
     setLogs(getLogs(activeTab));
+
+    input.current.focus();
   }, [activeTab]);
 
   const onChange = (e) => setQuery(e.target.value);
@@ -101,6 +105,7 @@ function Console({ db, activeTab }) {
       <InputBlock>
         <span>$</span>
         <Input
+          ref={input}
           autoFocus
           rows="10"
           value={query}
