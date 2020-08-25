@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { getGlue } from '../glue';
+import { getGlue } from './glue';
 
 let db;
 

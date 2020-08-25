@@ -3,7 +3,7 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 
-import connect, { getLogs, addLog } from '../managers/app';
+import connect, { getLogs, addLog } from '../manager';
 import color from '../styles/color';
 
 const Container = styled.div`

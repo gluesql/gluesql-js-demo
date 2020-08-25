@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import connect from '../managers/app';
+import connect from '../manager';
 import color from '../styles/color';
 
 const Container = styled.ol`
