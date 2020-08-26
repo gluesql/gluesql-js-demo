@@ -1,5 +1,4 @@
-# gluesql-js-demo - Coming Sooon
-GlueSQL-js Web Dashboard Demo
+![Image](https://user-images.githubusercontent.com/2025065/91306859-222c9f00-e7e8-11ea-824f-7057762d3ee0.png)
 
 It uses [GlueSQL-js](https://github.com/gluesql/gluesql-js).
 
