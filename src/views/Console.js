@@ -145,6 +145,8 @@ function Console({ db, activeTab }) {
       });
       setLogs(getLogs(activeTab));
       setQuery('');
+
+      input.current.focus();
     }
   };
 
