@@ -38,8 +38,8 @@ const Input = styled.textarea`
   width: calc(100% - 30px);
 `;
 
-const Blue = styled.span`
-  color: #7af;
+const Label = styled.span`
+  color: ${color.console.fgLabel};
 `;
 
 function Console({ db, activeTab }) {
@@ -90,11 +90,11 @@ function Console({ db, activeTab }) {
       { logs.map((log, i) => (
         <Fragment key={`${name}-${i}`}>
           <Code>
-            <Blue>[Run]</Blue>
+            <Label>[Run]</Label>
             <br />
             {`> ${log.query}`}
             <br />
-            <Blue>[Result]</Blue>
+            <Label>[Result]</Label>
             <br />
             {JSON.stringify(log.result)}
             <br />
