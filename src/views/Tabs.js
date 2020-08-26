@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import connect from '../manager';
 import color from '../styles/color';
+import { show } from './Connect';
 
 const Container = styled.ol`
   margin: 0;
@@ -50,10 +51,12 @@ const TypeLabel = styled.small`
 function Tabs({
   tabs, activeTab, deleteTab, selectTab, addTab,
 }) {
-  const add = () => {
-    const name = window.prompt('name?');
+  const add = async () => {
+    const tab = await show();
 
-    addTab({ type: 'memory', name });
+    if (tab) {
+      addTab(tab);
+    }
   };
 
   return (

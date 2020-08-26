@@ -23,5 +23,6 @@ module.exports = {
     'react/prop-types': 'off',
     'react/no-array-index-key': 'off',
     'react/jsx-filename-extension': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
 };
