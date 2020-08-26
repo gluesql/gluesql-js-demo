@@ -49,16 +49,8 @@ const TypeLabel = styled.small`
 `;
 
 function Tabs({
-  tabs, activeTab, deleteTab, selectTab, addTab,
+  tabs, activeTab, deleteTab, selectTab,
 }) {
-  const add = async () => {
-    const tab = await show();
-
-    if (tab) {
-      addTab(tab);
-    }
-  };
-
   return (
     <Container>
       { tabs.map((tab) => {
@@ -84,7 +76,7 @@ function Tabs({
         );
       }) }
       <Tab>
-        <Button type="button" onClick={add}>
+        <Button type="button" onClick={show}>
           { tabs.length === 0
             && <span> New </span>}
           <span role="img" aria-label="connect">⚡</span>

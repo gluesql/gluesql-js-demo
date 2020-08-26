@@ -126,7 +126,7 @@ export default function connect(View) {
       if (hasTab(tabs, tab)) {
         window.alert(`${type}/${name} Already exists`);
 
-        return;
+        return false;
       }
 
       execute(`INSERT INTO Tab VALUES ("${type}", "${name}");`);
@@ -135,6 +135,8 @@ export default function connect(View) {
       const newTab = newTabs[newTabs.length - 1];
 
       update(newTabs, newTab);
+
+      return true;
     }
 
     function deleteTab(tab) {

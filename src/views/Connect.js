@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 
+import connect from '../manager';
 import color from '../styles/color';
 
 const Container = styled.div`
@@ -75,7 +76,7 @@ export async function show() {
   });
 }
 
-export default function Connect() {
+function Connect({ addTab }) {
   const [visible, setVisible] = useState(false);
   const [name, setName] = useState('');
   const [type, setType] = useState('memory');
@@ -95,7 +96,7 @@ export default function Connect() {
   const hide = () => {
     setVisible(false);
 
-    close(null);
+    close();
   };
 
   const submit = (e) => {
@@ -107,9 +108,11 @@ export default function Connect() {
       return;
     }
 
-    setVisible(false);
+    if (addTab({ name, type })) {
+      setVisible(false);
 
-    close({ name, type });
+      close();
+    }
   };
 
   return visible && (
@@ -169,3 +172,5 @@ export default function Connect() {
     </Container>
   );
 }
+
+export default connect(Connect);
