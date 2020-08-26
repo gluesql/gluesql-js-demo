@@ -62,6 +62,7 @@ const ButtonGroup = styled.div`
     font-size: 24px;
     background-color: transparent;
     border: 1px solid ${color.border};
+    cursor: pointer;
   }
 `;
 
