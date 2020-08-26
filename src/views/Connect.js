@@ -84,6 +84,7 @@ export default function Connect() {
   useEffect(() => {
     if (!visible) { return; }
 
+    setName('');
     input.current.focus();
   }, [visible]);
 
