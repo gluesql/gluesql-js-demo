@@ -21,7 +21,15 @@ function App() {
   return (
     <Root>
       <Container>
-        <h1>GlueSQL Web Demo</h1>
+        <h1>
+          {'GlueSQL Web Demo '}
+          <a href="https://github.com/gluesql/gluesql-js-demo">
+            <img
+              src="https://img.shields.io/badge/github--repo-GlueSQL--js--demo-red"
+              alt="GitHub Repository for gluesql-js-demo"
+            />
+          </a>
+        </h1>
         <Tabs />
         <Console />
       </Container>
