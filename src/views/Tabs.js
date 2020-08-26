@@ -11,6 +11,7 @@ const Container = styled.ol`
   width: 100%;
   list-style: none;
   display: flex;
+  overflow-x: auto;
 `;
 
 const Tab = styled.li`
