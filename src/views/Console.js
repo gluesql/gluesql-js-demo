@@ -42,6 +42,78 @@ const Label = styled.span`
   color: ${color.console.fgLabel};
 `;
 
+const Table = styled.table`
+  margin-top: 5px;
+  border-collapse: collapse;
+
+  &, & tr, & td {
+    border: 1px solid ${color.console.fgBorder};
+  }
+
+  & td {
+    padding: 10px;
+  }
+`;
+
+function print(message, key) {
+  return (
+    <Fragment key={key}>
+      <span>{message}</span>
+      <br />
+    </Fragment>
+  );
+}
+
+function display(log) {
+  if (typeof log.result === 'string') {
+    return print(log.result);
+  } if (!Array.isArray(log.result)) {
+    const key = Object.keys(log.result)[0];
+    const message = `[${key} Error] ${JSON.stringify(log.result[key])}`;
+
+    return print(message);
+  }
+
+  const messages = log.result.map((result, k) => {
+    switch (result.query) {
+      case 'CREATE':
+      case 'DROP':
+      case 'INSERT':
+        return print(
+          `[${result.query}] succeeded.`,
+          `result-${k}`,
+        );
+      case 'DELETE':
+      case 'UPDATE':
+        return print(
+          `[${result.query}] ${result.data} row(s) affected.`,
+          `result-${k}`,
+        );
+      case 'SELECT':
+        return (
+          <Table key={`result-${k}`}>
+            <tbody>
+              { result.data.map((row, i) => (
+                <tr key={`row-${i}`}>
+                  { row.map((col, j) => (
+                    <td key={`col-${i}-${j}`}>{ col }</td>
+                  )) }
+                </tr>
+              )) }
+            </tbody>
+          </Table>
+        );
+      default:
+        return print(
+          JSON.stringify(result),
+          `result-${k}`,
+        );
+    }
+  });
+
+  return <>{messages}</>;
+}
+
 function Console({ db, activeTab }) {
   if (!activeTab) return <Container />;
 
@@ -96,8 +168,7 @@ function Console({ db, activeTab }) {
             <br />
             <Label>[Result]</Label>
             <br />
-            {JSON.stringify(log.result)}
-            <br />
+            {display(log)}
             <br />
           </Code>
         </Fragment>

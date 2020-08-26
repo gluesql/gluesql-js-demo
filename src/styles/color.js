@@ -9,6 +9,7 @@ const color = {
   console: {
     fg: WHITE,
     fgLabel: BLUE,
+    fgBorder: WHITE,
     bg: BLACK,
   },
   tab: {
