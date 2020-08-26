@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 
 import { getGlue } from './glue';
+import loadDemo from './demo';
 
-let db;
+let stateDb;
 
 function load() {
-  db = getGlue('memory');
+  stateDb = getGlue('memory');
 
-  db.execute(`
+  stateDb.execute(`
     CREATE TABLE Tab (
       type TEXT,
       name TEXT
     );
-
-    INSERT INTO Tab VALUES ("memory", "Test");
-    INSERT INTO Tab VALUES ("memory", "GlueGlue");
 
     CREATE TABLE Log (
       type TEXT,
@@ -27,7 +25,7 @@ function load() {
 
 function execute(sql) {
   try {
-    return db.execute(sql);
+    return stateDb.execute(sql);
   } catch (e) {
     console.error(e);
     window.alert(JSON.stringify(e));
@@ -105,7 +103,10 @@ export default function connect(View) {
   }
 
   return () => {
-    if (!db) load();
+    if (!stateDb) {
+      load();
+      loadDemo(stateDb, addLog, dbStore);
+    }
 
     const [tabs, setTabs] = useState(getTabs());
     const [activeTab, setActiveTab] = useState(tabs[0]);

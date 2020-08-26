@@ -18,7 +18,7 @@ const Container = styled.div`
   overflow-y: scroll;
 `;
 
-const Code = styled.code`
+const Code = styled.pre`
   display: block;
   font-family: consolas;
 `;
