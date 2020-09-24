@@ -13,14 +13,14 @@ const Container = styled.div`
   border: 0;
   background-color: ${color.console.bg};
   color: ${color.console.fg};
-  font-size: 20px;
-  font-family: consolas;
+  font-size: 16px;
+  font-family: consolas, monospace;
   overflow-y: scroll;
 `;
 
 const Code = styled.pre`
   display: block;
-  font-family: consolas;
+  font-family: consolas, monospace;
 `;
 
 const InputBlock = styled.div`
@@ -31,8 +31,8 @@ const Input = styled.textarea`
   padding: 0 0 0 10px;
   background-color: transparent;
   border: none;
-  font-family: consolas;
-  font-size: 20px;
+  font-family: consolas, monospace;
+  font-size: 16px;
   color: ${color.console.fg};
   outline: none;
   width: calc(100% - 30px);
@@ -51,7 +51,7 @@ const Table = styled.table`
   }
 
   & td {
-    padding: 10px;
+    padding: 5px;
   }
 `;
 

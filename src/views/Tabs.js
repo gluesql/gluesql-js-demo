@@ -71,7 +71,7 @@ function Tabs({
               type="button"
               onClick={() => deleteTab(tab)}
             >
-              <span role="img" aria-label="delete">❌</span>
+              <span style={{ color: 'red' }}>x</span>
             </Button>
           </Tab>
         );
@@ -80,7 +80,7 @@ function Tabs({
         <Button type="button" onClick={show}>
           { tabs.length === 0
             && <span> New </span>}
-          <span role="img" aria-label="connect">⚡</span>
+          <span>New +</span>
         </Button>
       </Tab>
     </Container>
