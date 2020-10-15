@@ -79,6 +79,7 @@ function display(log) {
       case 'CREATE':
       case 'DROP':
       case 'INSERT':
+      case 'ALTER TABLE':
         return print(
           `[${result.query}] succeeded.`,
           `result-${k}`,
@@ -135,7 +136,9 @@ function Console({ db, activeTab }) {
       let result;
 
       try {
-        result = db.execute(query);
+        const rectified = query.replace(/;\s*$/, '');
+
+        result = db.execute(rectified);
       } catch (error) {
         result = error;
       }
