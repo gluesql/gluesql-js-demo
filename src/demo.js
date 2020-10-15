@@ -20,16 +20,22 @@ export default function main(stateDb, addLog, dbStore) {
   INSERT INTO User VALUES (2, "Kitten", 0.11);
   INSERT INTO User VALUES (3, "Goliath", 0.45);`,
     `INSERT INTO Flag VALUES (100, "Red", 1);
-  INSERT INTO Flag VALUES (200, "Green", 2);
-  INSERT INTO Flag VALUES (300, "Blue", 3);
-  INSERT INTO Flag VALUES (400, "Orange", NULL);
-  INSERT INTO Flag VALUES (500, "Purple", 2);`,
+  INSERT INTO Flag VALUES
+    (100, "Red", 1), (200, "Green", 2), (300, "Blue", 3),
+    (400, "Orange", NULL), (500, "Purple", 2), (600, "Green", 2),
+    (700, "Orange", 3);`,
     'SELECT * FROM User;',
     'SELECT * FROM Flag;',
     `SELECT f.color, u.name, u.rate
   FROM Flag f
   LEFT JOIN User u ON f.user_id = u.id;`,
     'SELECT COUNT(*) + 1 FROM Flag WHERE user_id != NULL',
+    'ALTER TABLE Flag RENAME TO FlagFlag',
+    'ALTER TABLE FlagFlag ADD COLUMN amount INTEGER NULL',
+    'ALTER TABLE FlagFlag RENAME COLUMN amount TO something',
+    'ALTER TABLE FlagFlag RENAME TO Flag',
+    'ALTER TABLE Flag DROP COLUMN something',
+    'SELECT color, COUNT(*) FROM Flag GROUP BY color',
   ];
 
   queries.forEach((query) => {
