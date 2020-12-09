@@ -55,7 +55,9 @@ function Tabs({
   return (
     <Container>
       { tabs.map((tab) => {
-        const selected = tab.name === activeTab.name && tab.type === activeTab.type;
+        const selected = activeTab && (
+          tab.name === activeTab.name && tab.type === activeTab.type
+        );
 
         return (
           <Tab key={`${tab.type}-${tab.name}`} selected={selected}>
@@ -78,8 +80,6 @@ function Tabs({
       }) }
       <Tab>
         <Button type="button" onClick={show}>
-          { tabs.length === 0
-            && <span> New </span>}
           <span>New +</span>
         </Button>
       </Tab>

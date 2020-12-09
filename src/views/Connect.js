@@ -100,7 +100,7 @@ function Connect({ addTab }) {
     close();
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
 
     if (!name) {
@@ -109,7 +109,7 @@ function Connect({ addTab }) {
       return;
     }
 
-    if (addTab({ name, type })) {
+    if (await addTab({ name, type })) {
       setVisible(false);
 
       close();

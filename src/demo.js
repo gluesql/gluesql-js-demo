@@ -1,8 +1,8 @@
 const TYPE = 'memory';
 const NAME = 'Demo';
 
-export default function main(stateDb, addLog, dbStore) {
-  stateDb.execute(`INSERT INTO Tab VALUES ("${TYPE}", "${NAME}")`);
+export default async function main(stateDb, addLog, dbStore) {
+  await stateDb.execute(`INSERT INTO Tab VALUES ("${TYPE}", "${NAME}")`);
 
   const db = dbStore.get({ type: TYPE, name: NAME });
   const queries = [
@@ -38,14 +38,14 @@ export default function main(stateDb, addLog, dbStore) {
     'SELECT color, COUNT(*) FROM Flag GROUP BY color',
   ];
 
-  queries.forEach((query) => {
-    const result = db.execute(query);
+  for (const query of queries) {
+    const result = await db.execute(query);
 
-    addLog({
+    await addLog({
       type: TYPE,
       name: NAME,
       query,
       result,
     });
-  });
+  }
 }

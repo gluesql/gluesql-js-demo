@@ -125,28 +125,30 @@ function Console({ db, activeTab }) {
 
   useEffect(() => {
     setQuery('');
-    setLogs(getLogs(activeTab));
+    getLogs(activeTab).then((defaultLogs) => {
+      setLogs(defaultLogs);
+    });
 
     input.current.focus();
   }, [activeTab]);
 
   const onChange = (e) => setQuery(e.target.value);
-  const onKeyUp = (e) => {
+  const onKeyUp = async (e) => {
     if (e.key === 'Enter' && query.includes(';')) {
       let result;
 
       try {
         const rectified = query.replace(/;\s*$/, '');
 
-        result = db.execute(rectified);
+        result = await db.execute(rectified);
       } catch (error) {
         result = error;
       }
 
-      addLog({
+      await addLog({
         type, name, query, result,
       });
-      setLogs(getLogs(activeTab));
+      setLogs(await getLogs(activeTab));
       setQuery('');
 
       input.current.focus();

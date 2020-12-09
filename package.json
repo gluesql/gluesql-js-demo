@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/gluesql/gluesql-js-demo#readme",
   "dependencies": {
-    "gluesql": "^0.2.1",
+    "gluesql": "^0.3.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "styled-components": "^5.1.1"

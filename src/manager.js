@@ -5,10 +5,10 @@ import loadDemo from './demo';
 
 let stateDb;
 
-function load() {
+async function load() {
   stateDb = getGlue('memory');
 
-  stateDb.execute(`
+  await stateDb.execute(`
     CREATE TABLE Tab (
       type TEXT,
       name TEXT
@@ -23,9 +23,9 @@ function load() {
   `);
 }
 
-function execute(sql) {
+async function execute(sql) {
   try {
-    return stateDb.execute(sql);
+    return await stateDb.execute(sql);
   } catch (e) {
     console.error(e);
     window.alert(JSON.stringify(e));
@@ -37,20 +37,20 @@ function execute(sql) {
 const encode = (json) => btoa(JSON.stringify(json));
 const decode = (value) => JSON.parse(atob(value));
 
-export function getLogs({ type, name }) {
-  return execute(`SELECT query, result FROM Log WHERE type = "${type}" AND name = "${name}";`)[0]
+export async function getLogs({ type, name }) {
+  return (await execute(`SELECT query, result FROM Log WHERE type = "${type}" AND name = "${name}";`))[0]
     .data
     .map(([query, result]) => ({ query: atob(query), result: decode(result) }));
 }
 
-export function addLog({
+export async function addLog({
   type, name, query, result,
 }) {
   const sql = `INSERT INTO Log VALUES (
     "${type}", "${name}", "${btoa(query)}", "${encode(result)}"
   );`;
 
-  execute(sql);
+  await execute(sql);
 }
 
 class DbStore {
@@ -87,10 +87,10 @@ const tabsMap = {};
 const activeTabMap = {};
 
 export default function connect(View) {
-  function getTabs() {
-    return execute('SELECT type, name FROM Tab;')[0]
-      .data
-      .map((tab) => ({ type: tab[0], name: tab[1] }));
+  async function getTabs() {
+    const tabs = await execute('SELECT type, name FROM Tab;');
+
+    return tabs[0].data.map((tab) => ({ type: tab[0], name: tab[1] }));
   }
 
   function hasTab(tabs, { type, name }) {
@@ -103,13 +103,18 @@ export default function connect(View) {
   }
 
   return () => {
-    if (!stateDb) {
-      load();
-      loadDemo(stateDb, addLog, dbStore);
-    }
-
-    const [tabs, setTabs] = useState(getTabs());
+    const [tabs, setTabs] = useState([]);
     const [activeTab, setActiveTab] = useState(tabs[0]);
+
+    if (!stateDb) {
+      load().then(async () => {
+        await loadDemo(stateDb, addLog, dbStore);
+
+        const defaultTabs = await getTabs();
+
+        update(defaultTabs, defaultTabs[0]);
+      });
+    }
 
     useEffect(() => {
       tabsMap[View] = setTabs;
@@ -121,7 +126,7 @@ export default function connect(View) {
       };
     }, []);
 
-    function addTab(tab) {
+    async function addTab(tab) {
       const { type, name } = tab;
 
       if (hasTab(tabs, tab)) {
@@ -130,9 +135,9 @@ export default function connect(View) {
         return false;
       }
 
-      execute(`INSERT INTO Tab VALUES ("${type}", "${name}");`);
+      await execute(`INSERT INTO Tab VALUES ("${type}", "${name}");`);
 
-      const newTabs = getTabs();
+      const newTabs = await getTabs();
       const newTab = newTabs[newTabs.length - 1];
 
       update(newTabs, newTab);
@@ -140,12 +145,12 @@ export default function connect(View) {
       return true;
     }
 
-    function deleteTab(tab) {
+    async function deleteTab(tab) {
       const { type, name } = tab;
-      execute(`DELETE FROM Log WHERE type = "${type}" AND name = "${name}";`);
-      execute(`DELETE FROM Tab WHERE type = "${type}" AND name = "${name}";`);
+      await execute(`DELETE FROM Log WHERE type = "${type}" AND name = "${name}";`);
+      await execute(`DELETE FROM Tab WHERE type = "${type}" AND name = "${name}";`);
 
-      const newTabs = getTabs();
+      const newTabs = await getTabs();
       const newTab = hasTab(newTabs, activeTab) ? activeTab : newTabs[0];
 
       dbStore.delete(tab);
